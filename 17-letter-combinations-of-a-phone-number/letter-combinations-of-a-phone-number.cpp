@@ -8,8 +8,8 @@ private:
         int number = digits[index] - '0';
         string value = mapping[number];
 
-        for ( char ch : value){
-            output.push_back(ch);
+        for ( int i = 0; i<value.length() ;i++){
+            output.push_back(value[i]);
             solve(digits , output ,index+1,ans ,mapping);
             output.pop_back();
         }
