@@ -15,7 +15,10 @@ public:
         ListNode* curr = head;
         while(curr -> next != nullptr){
             if(curr -> val == curr -> next -> val){
+                ListNode* temp = curr -> next;
                 curr -> next = curr -> next -> next;
+                temp -> next = nullptr;
+                delete temp;
             }
             else{
             curr = curr -> next;
