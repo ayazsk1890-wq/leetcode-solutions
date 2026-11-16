@@ -34,47 +34,28 @@ public:
             tail = temp;
         }
     }
-    ListNode* add(ListNode* l1, ListNode* l2){
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int carry = 0;
+
         ListNode* head = nullptr;
         ListNode* tail = nullptr;
-        int carry = 0;
-        while(l1 != nullptr && l2 != nullptr){
-            int sum = carry + l1 -> val + l2 -> val;
+
+        while(l1 != nullptr || l2 != nullptr || carry){
+            int val1 = 0;
+            if(l1 != nullptr) val1 = l1 -> val;
+            int val2 = 0;
+            if(l2 != nullptr) val2 = l2 -> val;
+
+            int sum = carry + val1 + val2;
             int digit = sum % 10;
 
             InsertatTail(head, tail, digit);
             carry = sum / 10;
-            l1 = l1 -> next;
-            l2 = l2 -> next;
+
+            if(l1 != nullptr) l1 = l1 -> next;
+            if(l2 != nullptr) l2 = l2 -> next;
             
         }
-        while(l1 != nullptr){
-            int sum = carry + l1 -> val;
-            int digit = sum % 10;
-
-            InsertatTail(head, tail, digit);
-            carry = sum / 10;
-            l1 = l1 -> next;
-        }
-        while(l2 != nullptr){
-            int sum = carry + l2 -> val;
-            int digit = sum % 10;
-
-            InsertatTail(head, tail, digit);
-            carry = sum / 10;
-            l2 = l2 -> next;
-        }
-        while(carry){
-            int sum = carry;
-            int digit = sum % 10;
-
-            InsertatTail(head, tail, digit);
-            carry = sum / 10;
-        }
         return head;
-    }
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode* ans = add(l1, l2);
-        return ans;
     }
 };
