@@ -48,8 +48,6 @@ public:
         return ans;
     }
     ListNode* sort(ListNode* &head){
-        if(head == nullptr || head -> next == nullptr) return head;
-
         ListNode* mid = getMid(head);
 
         ListNode* left = head;
@@ -64,6 +62,7 @@ public:
         return result;
     }
     ListNode* sortList(ListNode* head) {
+        if(head == nullptr || head -> next == nullptr) return head;
         return sort(head);
     }
 };
