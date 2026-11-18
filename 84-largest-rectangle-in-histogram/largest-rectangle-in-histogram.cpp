@@ -1,52 +1,25 @@
 class Solution {
 public:
-    vector<int> nextSmallerElement(vector<int>& arr, int n){
-        stack<int>s;
-        s.push(-1);
-        vector<int>ans(n);
-        for(int i = n - 1; i >= 0; i--){
-            int curr = arr[i];
-            while(s.top() != -1 && curr <= arr[s.top()]){
-                s.pop();
-            }
-            ans[i] = s.top();
-            s.push(i);
-        }
-        return ans;
-    }
-
-    vector<int> prevSmallerElement(vector<int>& arr, int n){
-        stack<int>s;
-        s.push(-1);
-        vector<int>ans(n);
-        for(int i = 0; i < n; i++){
-            int curr = arr[i];
-            while(s.top() != -1 && curr <= arr[s.top()]){
-                s.pop();
-            }
-            ans[i] = s.top();
-            s.push(i);
-        }
-        return ans;
-    }
-
     int largestRectangleArea(vector<int>& heights) {
         int n = heights.size();
+        // Pre-allocate a static or stack-allocated array to avoid std::stack (deque) heap overhead
+        int st[100005]; 
+        int top = -1;
+        int maxArea = 0;
 
-        vector<int>next(n);
-        next = nextSmallerElement(heights ,n);
+        for (int i = 0; i <= n; ++i) {
+            // Use 0 as a sentinel height at i == n to flush remaining elements in the stack
+            int currHeight = (i == n) ? 0 : heights[i];
 
-        vector<int>prev(n);
-        prev = prevSmallerElement(heights, n);
-        int area = INT_MIN;
-        for(int i = 0; i < n; i++){
-            int l = heights[i];
-            if(next[i] == -1) next[i] = n;
-            int b = next[i] - prev[i] - 1;
-
-            int newArea = l * b;
-            area = max(area, newArea);
+            while (top != -1 && currHeight < heights[st[top]]) {
+                int h = heights[st[top--]];
+                // If stack is empty, width spans from index 0 to i - 1 (width = i)
+                int w = (top == -1) ? i : (i - st[top] - 1);
+                maxArea = max(maxArea, h * w);
+            }
+            st[++top] = i;
         }
-        return area;
+
+        return maxArea;
     }
 };
